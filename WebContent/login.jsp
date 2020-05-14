@@ -23,7 +23,7 @@
     <div class="main_menu">
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-          <a class="navbar-brand logo_h" href="index.html"><img src="img/logo.png" alt=""></a>
+          <a class="navbar-brand logo_h" href="/Ecommerce/index"><img src="img/logo.png" alt=""></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="icon-bar"></span>
@@ -32,42 +32,47 @@
           </button>
           <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
             <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-              <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+              <li class="nav-item active"><a class="nav-link" href="/Ecommerce/index">Accueil</a></li>
               <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Shop</a>
+                  aria-expanded="false">Catégories</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
-                  <li class="nav-item"><a class="nav-link" href="single-product.html">Blog Details</a></li>
-                  <li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
-                  <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
-                  <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
+                <c:forEach var="famille" items="${familles}">
+                
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/famille?id=${famille.id}">${famille.nom}</a></li>
+                </c:forEach>
+                
+                  
                 </ul>
 							</li>
-              <li class="nav-item submenu dropdown">
+              
+							<li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Blog</a>
+                  aria-expanded="false">Authentification</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-                  <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
-                </ul>
-							</li>
-							<li class="nav-item active submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Pages</a>
-                <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                  <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
-                  <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/login">Connexion</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/register">Inscription</a></li>
                 </ul>
               </li>
-              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+              <li class="nav-item"><a class="nav-link" href="/Ecommerce/contact">Contact</a></li>
+            <li class="nav-item submenu dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false">Gestion</a>
+                <ul class="dropdown-menu">
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/ajouterProduit">Ajouter Produit</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/listeProduits">Liste Produits</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/ajouterFamille">Ajouter Famille</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/listeFamille">Liste Famille</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/listeClient">Liste Clients</a></li>
+                </ul>
+              </li>
+            
             </ul>
 
             <ul class="nav-shop">
-              <li class="nav-item"><button><i class="ti-search"></i></button></li>
-              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
-              <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>
+              
+              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">${sessionScope.produits.size }</span></button> </li>
+              
             </ul>
           </div>
         </div>
@@ -81,11 +86,11 @@
 		<div class="container h-100">
 			<div class="blog-banner">
 				<div class="text-center">
-					<h1>Login / Register</h1>
+					<h1>Connexion / Inscription</h1>
 					<nav aria-label="breadcrumb" class="banner-breadcrumb">
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Login/Register</li>
+              <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Connexion / Inscription</li>
             </ol>
           </nav>
 				</div>
@@ -94,39 +99,33 @@
 	</section>
 	<!-- ================ end banner area ================= -->
   
-  <!--================Login Box Area =================-->
 	<section class="login_box_area section-margin">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="login_box_img">
 						<div class="hover">
-							<h4>New to our website?</h4>
-							<p>There are advances being made in science and technology everyday, and a good example of this is the</p>
-							<a class="button button-account" href="register.html">Create an Account</a>
+							<h4>Nouveau sur le site ?</h4>
+							<p>Créez un compte !</p>
+							<a class="button button-account" href="/Ecommerce/register">S'inscrire</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="login_form_inner">
-						<h3>Log in to enter</h3>
-						<form class="row login_form" action="#/" id="contactForm" >
+						<h3>Connectez-vous</h3>
+						<form class="row login_form" action="/Ecommerce/login" method="post" id="contactForm" >
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="name" name="name" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+								<input type="email" class="form-control" id="name" name="email" placeholder="Adresse E-mail" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresse E-mail'">
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="name" name="name" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+								<input type="password" class="form-control" id="name" name="password" placeholder="Mot de passe" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
 							</div>
 							<div class="col-md-12 form-group">
-								<div class="creat_account">
-									<input type="checkbox" id="f-option2" name="selector">
-									<label for="f-option2">Keep me logged in</label>
-								</div>
+								<button type="submit" value="submit" class="button button-login w-100">Se connecter</button>
+								
 							</div>
-							<div class="col-md-12 form-group">
-								<button type="submit" value="submit" class="button button-login w-100">Log In</button>
-								<a href="#">Forgot Password?</a>
-							</div>
+							
 						</form>
 					</div>
 				</div>

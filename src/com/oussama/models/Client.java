@@ -18,6 +18,10 @@ public class Client {
 		this.email = email;
 		this.mdp = mdp;
 	}
+	
+	public Client() {
+		
+	}
 
 	public int getId() {
 		return id;

@@ -6,12 +6,16 @@ public class Produit {
 	private String nom;
 	private double prix;
 	private Famille famille;
+	private String description;
+	private String image;
 	
-	public Produit(String nom, double prix, Famille famille) {
+	public Produit(String nom, double prix, Famille famille, String description, String image) {
 		super();
 		this.nom = nom;
 		this.prix = prix;
 		this.famille = famille;
+		this.image = image;
+		this.description = description;
 	}
 	
 	public Produit() {
@@ -43,6 +47,22 @@ public class Produit {
 
 	public void setFamille(Famille famille) {
 		this.famille = famille;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	@Override

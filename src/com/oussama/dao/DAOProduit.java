@@ -21,11 +21,12 @@ public class DAOProduit implements IProduit {
 
 		try {
 			PreparedStatement statement = connexion
-					.prepareStatement("INSERT INTO Produit(nom,prix,famille) VALUES (?,?,?);");
+					.prepareStatement("INSERT INTO Produit(nom,prix,famille,image,description) VALUES (?,?,?,?,?);");
 			statement.setString(1, produit.getNom());
 			statement.setDouble(2, produit.getPrix());
 			statement.setInt(3, produit.getFamille().getId());
-
+			statement.setString(4, produit.getImage());
+			statement.setString(5, produit.getDescription());
 			statement.executeUpdate();
 			
 			statement.close();
@@ -41,11 +42,12 @@ public class DAOProduit implements IProduit {
 		
 		Connection connexion = SingletonConnexion.getConnection();
 		try {
-			PreparedStatement statement = connexion.prepareStatement("UPDATE Produit SET nom = ? , prix = ? , famille = ? WHERE id= ?");
+			PreparedStatement statement = connexion.prepareStatement("UPDATE Produit SET nom = ? , prix = ? , famille = ?, description = ? WHERE id= ?");
 			statement.setString(1, produit.getNom());
 			statement.setDouble(2, produit.getPrix());
 			statement.setInt(3,produit.getFamille().getId());
-			statement.setInt(4, id);
+			statement.setString(4, produit.getDescription());
+			statement.setInt(5, id);
 			
 			statement.executeUpdate();
 		}
@@ -68,8 +70,10 @@ public class DAOProduit implements IProduit {
 				String nom = result.getString("nom");
 				double prix = result.getDouble("prix");
 				int id_famille = result.getInt("famille");
+				String description = result.getString("description");
+				String image = result.getString("image");
 				Famille famille = getFamilleParId(id_famille);
-				Produit produit = new Produit(nom,prix, famille);
+				Produit produit = new Produit(nom,prix, famille, description, image);
 				produit.setId(result.getInt("id"));
 				produits.add(produit);
 			}
@@ -126,6 +130,8 @@ public class DAOProduit implements IProduit {
 			produit.setId(id);
 			produit.setNom(result.getString("nom"));
 			produit.setPrix(result.getDouble("prix"));
+			produit.setImage(result.getString("image"));
+			produit.setDescription(result.getString("description"));
 			
 			Famille famille = getFamilleParId(result.getInt("famille"));
 			

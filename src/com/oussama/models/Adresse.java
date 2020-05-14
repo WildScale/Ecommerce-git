@@ -12,6 +12,11 @@ public class Adresse {
 		this.quartier = quartier;
 		this.rue = rue;
 	}
+	
+	public Adresse() {
+		
+	}
+	
 	public String getVille() {
 		return ville;
 	}

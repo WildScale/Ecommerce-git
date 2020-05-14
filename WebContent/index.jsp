@@ -22,7 +22,7 @@
     <div class="main_menu">
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-          <a class="navbar-brand logo_h" href="index.jsp"><img src="img/logo.png" alt=""></a>
+          <a class="navbar-brand logo_h" href="/Ecommerce/index"><img src="img/logo.png" alt=""></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="icon-bar"></span>
@@ -31,7 +31,7 @@
           </button>
           <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
             <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-              <li class="nav-item active"><a class="nav-link" href="index.jsp">Accueil</a></li>
+              <li class="nav-item active"><a class="nav-link" href="/Ecommerce/index">Accueil</a></li>
               <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Catégories</a>
@@ -44,42 +44,34 @@
                   
                 </ul>
 							</li>
-              <li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Blog</a>
-                <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="blog.jsp">Blog</a></li>
-                  <li class="nav-item"><a class="nav-link" href="single-blog.jsp">Blog Details</a></li>
-                </ul>
-							</li>
+              
 							<li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Pages</a>
+                  aria-expanded="false">Authentification</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="login.jsp">Login</a></li>
-                  <li class="nav-item"><a class="nav-link" href="register.jsp">Register</a></li>
-                  <li class="nav-item"><a class="nav-link" href="tracking-order.jsp">Tracking</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/login">Connexion</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/register">Inscription</a></li>
                 </ul>
               </li>
-              <li class="nav-item"><a class="nav-link" href="contact.jsp">Contact</a></li>
+              <li class="nav-item"><a class="nav-link" href="/Ecommerce/contact">Contact</a></li>
             <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Gestion</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="login.jsp">Ajouter Produit</a></li>
-                  <li class="nav-item"><a class="nav-link" href="register.jsp">Liste Produits</a></li>
-                  <li class="nav-item"><a class="nav-link" href="tracking-order.jsp">Ajouter Famille</a></li>
-                  <li class="nav-item"><a class="nav-link" href="tracking-order.jsp">Liste Famille</a></li>
-                  <li class="nav-item"><a class="nav-link" href="tracking-order.jsp">Liste Clients</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/ajouterProduit">Ajouter Produit</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/listeProduits">Liste Produits</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/ajouterFamille">Ajouter Famille</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/listeFamille">Liste Famille</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/listeClient">Liste Clients</a></li>
                 </ul>
               </li>
             
             </ul>
 
             <ul class="nav-shop">
-              <li class="nav-item"><button><i class="ti-search"></i></button></li>
-              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
-              <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>
+              
+              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">${sessionScope.produits.size }</span></button> </li>
+              
             </ul>
           </div>
         </div>
@@ -123,7 +115,7 @@
           <div class="col-md-6 col-lg-4 col-xl-3">
             <div class="card text-center card-product">
               <div class="card-product__img">
-                <img class="card-img" src="img/product/product1.png" alt="">
+                <img class="card-img" src="images_produits/${produit.image}" alt="">
                 <ul class="card-product__imgOverlay">
                   <li><a href="/Ecommerce/produit?id=${produit.id}"><button><i class="ti-search"></i></button></a></li>
                   <li><button><i class="ti-shopping-cart"></i></button></li>

@@ -1,3 +1,4 @@
+<%@ taglib  uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +24,7 @@
     <div class="main_menu">
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-          <a class="navbar-brand logo_h" href="index.html"><img src="img/logo.png" alt=""></a>
+          <a class="navbar-brand logo_h" href="/Ecommerce/index"><img src="img/logo.png" alt=""></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="icon-bar"></span>
@@ -32,42 +33,47 @@
           </button>
           <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
             <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-              <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-              <li class="nav-item active submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Shop</a>
-                <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
-                  <li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
-                  <li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
-                  <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
-                  <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
-                </ul>
-							</li>
+              <li class="nav-item active"><a class="nav-link" href="/Ecommerce/index">Accueil</a></li>
               <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Blog</a>
+                  aria-expanded="false">Catégories</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-                  <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
-                  <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
+                <c:forEach var="famille" items="${familles}">
+                
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/famille?id=${famille.id}">${famille.nom}</a></li>
+                </c:forEach>
+                
+                  
                 </ul>
 							</li>
+              
 							<li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Pages</a>
+                  aria-expanded="false">Authentification</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                  <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/login">Connexion</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/register">Inscription</a></li>
                 </ul>
               </li>
-              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+              <li class="nav-item"><a class="nav-link" href="/Ecommerce/contact">Contact</a></li>
+            <li class="nav-item submenu dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false">Gestion</a>
+                <ul class="dropdown-menu">
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/ajouterProduit">Ajouter Produit</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/listeProduits">Liste Produits</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/ajouterFamille">Ajouter Famille</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/listeFamille">Liste Famille</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/listeClient">Liste Clients</a></li>
+                </ul>
+              </li>
+            
             </ul>
 
             <ul class="nav-shop">
-              <li class="nav-item"><button><i class="ti-search"></i></button></li>
-              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
-              <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>
+              
+              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">${sessionScope.produits.size }</span></button> </li>
+              
             </ul>
           </div>
         </div>
@@ -103,14 +109,17 @@
               <div class="table-responsive">
                   <table class="table">
                       <thead>
+                      
                           <tr>
-                              <th scope="col">Product</th>
-                              <th scope="col">Price</th>
-                              <th scope="col">Quantity</th>
+                              <th scope="col">Produit</th>
+                              <th scope="col">Prix</th>
+                              <th scope="col">Quantité</th>
                               <th scope="col">Total</th>
+                              <th scope="col"></th>
                           </tr>
                       </thead>
                       <tbody>
+                      <c:forEach var="entry" items="${produits}">
                           <tr>
                               <td>
                                   <div class="media">
@@ -118,101 +127,29 @@
                                           <img src="img/cart/cart1.png" alt="">
                                       </div>
                                       <div class="media-body">
-                                          <p>Minimalistic shop for multipurpose use</p>
+                                          <p>${entry.key.nom}</p>
                                       </div>
                                   </div>
                               </td>
                               <td>
-                                  <h5>$360.00</h5>
+                                  <h5>${entry.key.prix}</h5>
                               </td>
                               <td>
                                   <div class="product_count">
-                                      <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
-                                          class="input-text qty">
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                          class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                          class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+                                      <label >${entry.value}</label>
+                                     
                                   </div>
                               </td>
                               <td>
-                                  <h5>$720.00</h5>
+                                  <h5>${entry.key.prix*entry.value}</h5>
+                              </td>
+                              <td>
+                              	<form method="post" action="/Ecommerce/retirer-produit?id=${entry.key.id}">
+                                  <button type="submit" class="btn btn-danger">Supprimer</button>
+                              	</form>
                               </td>
                           </tr>
-                          <tr>
-                              <td>
-                                  <div class="media">
-                                      <div class="d-flex">
-                                          <img src="img/cart/cart2.png" alt="">
-                                      </div>
-                                      <div class="media-body">
-                                          <p>Minimalistic shop for multipurpose use</p>
-                                      </div>
-                                  </div>
-                              </td>
-                              <td>
-                                  <h5>$360.00</h5>
-                              </td>
-                              <td>
-                                  <div class="product_count">
-                                      <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
-                                          class="input-text qty">
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                          class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                          class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-                                  </div>
-                              </td>
-                              <td>
-                                  <h5>$720.00</h5>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td>
-                                  <div class="media">
-                                      <div class="d-flex">
-                                          <img src="img/cart/cart3.png" alt="">
-                                      </div>
-                                      <div class="media-body">
-                                          <p>Minimalistic shop for multipurpose use</p>
-                                      </div>
-                                  </div>
-                              </td>
-                              <td>
-                                  <h5>$360.00</h5>
-                              </td>
-                              <td>
-                                  <div class="product_count">
-                                      <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
-                                          class="input-text qty">
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                          class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                          class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-                                  </div>
-                              </td>
-                              <td>
-                                  <h5>$720.00</h5>
-                              </td>
-                          </tr>
-                          <tr class="bottom_button">
-                              <td>
-                                  <a class="button" href="#">Update Cart</a>
-                              </td>
-                              <td>
-
-                              </td>
-                              <td>
-
-                              </td>
-                              <td>
-                                  <div class="cupon_text d-flex align-items-center">
-                                      <input type="text" placeholder="Coupon Code">
-                                      <a class="primary-btn" href="#">Apply</a>
-                                      <a class="button" href="#">Have a Coupon?</a>
-                                  </div>
-                              </td>
-                          </tr>
+                          </c:forEach>
                           <tr>
                               <td>
 
@@ -221,46 +158,13 @@
 
                               </td>
                               <td>
-                                  <h5>Subtotal</h5>
+                                  <h5>Total</h5>
                               </td>
                               <td>
                                   <h5>$2160.00</h5>
                               </td>
                           </tr>
-                          <tr class="shipping_area">
-                              <td class="d-none d-md-block">
-
-                              </td>
-                              <td>
-
-                              </td>
-                              <td>
-                                  <h5>Shipping</h5>
-                              </td>
-                              <td>
-                                  <div class="shipping_box">
-                                      <ul class="list">
-                                          <li><a href="#">Flat Rate: $5.00</a></li>
-                                          <li><a href="#">Free Shipping</a></li>
-                                          <li><a href="#">Flat Rate: $10.00</a></li>
-                                          <li class="active"><a href="#">Local Delivery: $2.00</a></li>
-                                      </ul>
-                                      <h6>Calculate Shipping <i class="fa fa-caret-down" aria-hidden="true"></i></h6>
-                                      <select class="shipping_select">
-                                          <option value="1">Bangladesh</option>
-                                          <option value="2">India</option>
-                                          <option value="4">Pakistan</option>
-                                      </select>
-                                      <select class="shipping_select">
-                                          <option value="1">Select a State</option>
-                                          <option value="2">Select a State</option>
-                                          <option value="4">Select a State</option>
-                                      </select>
-                                      <input type="text" placeholder="Postcode/Zipcode">
-                                      <a class="gray_btn" href="#">Update Details</a>
-                                  </div>
-                              </td>
-                          </tr>
+                          
                           <tr class="out_button_area">
                               <td class="d-none-l">
 
@@ -273,8 +177,8 @@
                               </td>
                               <td>
                                   <div class="checkout_btn_inner d-flex align-items-center">
-                                      <a class="gray_btn" href="#">Continue Shopping</a>
-                                      <a class="primary-btn ml-2" href="#">Proceed to checkout</a>
+                                      <a class="gray_btn" href="/Ecommerce/index">Continuer les achats</a>
+                                      <a class="primary-btn ml-2" href="/Ecommerce/checkout">Procéder au checkout</a>
                                   </div>
                               </td>
                           </tr>

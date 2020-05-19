@@ -66,21 +66,23 @@
 								</ul></li>
 							<li class="nav-item"><a class="nav-link"
 								href="/Ecommerce/contact">Contact</a></li>
-							<li class="nav-item submenu dropdown"><a href="#"
-								class="nav-link dropdown-toggle" data-toggle="dropdown"
-								role="button" aria-haspopup="true" aria-expanded="false">Gestion</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link"
-										href="/Ecommerce/ajouterProduit">Ajouter Produit</a></li>
-									<li class="nav-item"><a class="nav-link"
-										href="/Ecommerce/listeProduits">Liste Produits</a></li>
-									<li class="nav-item"><a class="nav-link"
-										href="/Ecommerce/ajouterFamille">Ajouter Famille</a></li>
-									<li class="nav-item"><a class="nav-link"
-										href="/Ecommerce/listeFamille">Liste Famille</a></li>
-									<li class="nav-item"><a class="nav-link"
-										href="/Ecommerce/listeClient">Liste Clients</a></li>
-								</ul></li>
+							<c:if test="${sessionScope.client.isAdmin==true}">
+								<li class="nav-item submenu dropdown"><a href="#"
+									class="nav-link dropdown-toggle" data-toggle="dropdown"
+									role="button" aria-haspopup="true" aria-expanded="false">Gestion</a>
+									<ul class="dropdown-menu">
+										<li class="nav-item"><a class="nav-link"
+											href="/Ecommerce/ajouterProduit">Ajouter Produit</a></li>
+										<li class="nav-item"><a class="nav-link"
+											href="/Ecommerce/listeProduits">Liste Produits</a></li>
+										<li class="nav-item"><a class="nav-link"
+											href="/Ecommerce/ajouterFamille">Ajouter Famille</a></li>
+										<li class="nav-item"><a class="nav-link"
+											href="/Ecommerce/listeFamille">Liste Famille</a></li>
+										<li class="nav-item"><a class="nav-link"
+											href="/Ecommerce/listeClient">Liste Clients</a></li>
+									</ul></li>
+							</c:if>
 
 						</ul>
 

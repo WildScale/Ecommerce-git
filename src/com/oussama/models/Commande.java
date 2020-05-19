@@ -1,5 +1,5 @@
 package com.oussama.models;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,9 +10,8 @@ public class Commande {
 	private double prix;
 	private int client;
 	
-	public Commande(int id, Date date, double prix, int client) {
+	public Commande(Date date, double prix, int client) {
 		super();
-		this.id = id;
 		this.date = date;
 		this.prix = prix;
 		this.client = client;

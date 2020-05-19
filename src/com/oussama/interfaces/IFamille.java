@@ -10,5 +10,6 @@ public interface IFamille {
 	void modifierFamille(Famille famille, int id);
 	ArrayList<Famille> listerFamille();
 	void supprimerFamille(int id);
+	Famille getFamilleParId(int id);
 	
 }

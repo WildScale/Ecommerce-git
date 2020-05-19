@@ -28,7 +28,7 @@
 		<div class="main_menu">
 			<nav class="navbar navbar-expand-lg navbar-light">
 				<div class="container">
-					<a class="navbar-brand logo_h" href="index.jsp"><img
+					<a class="navbar-brand logo_h" href="/Ecommerce/index"><img
 						src="img/logo.png" alt=""></a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						data-target="#navbarSupportedContent"
@@ -41,7 +41,7 @@
 						id="navbarSupportedContent">
 						<ul class="nav navbar-nav menu_nav ml-auto mr-auto">
 							<li class="nav-item active"><a class="nav-link"
-								href="index.jsp">Accueil</a></li>
+								href="/Ecommerce/index">Accueil</a></li>
 							<li class="nav-item submenu dropdown"><a href="#"
 								class="nav-link dropdown-toggle" data-toggle="dropdown"
 								role="button" aria-haspopup="true" aria-expanded="false">Catégories</a>
@@ -66,21 +66,23 @@
 								</ul></li>
 							<li class="nav-item"><a class="nav-link"
 								href="/Ecommerce/contact">Contact</a></li>
-							<li class="nav-item submenu dropdown"><a href="#"
-								class="nav-link dropdown-toggle" data-toggle="dropdown"
-								role="button" aria-haspopup="true" aria-expanded="false">Gestion</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link"
-										href="/Ecommerce/ajouterProduit">Ajouter Produit</a></li>
-									<li class="nav-item"><a class="nav-link"
-										href="/Ecommerce/listeProduits">Liste Produits</a></li>
-									<li class="nav-item"><a class="nav-link"
-										href="/Ecommerce/ajouterFamille">Ajouter Famille</a></li>
-									<li class="nav-item"><a class="nav-link"
-										href="/Ecommerce/listeFamille">Liste Famille</a></li>
-									<li class="nav-item"><a class="nav-link"
-										href="/Ecommerce/listeClient">Liste Clients</a></li>
-								</ul></li>
+							<c:if test="${sessionScope.client.isAdmin==true}">
+								<li class="nav-item submenu dropdown"><a href="#"
+									class="nav-link dropdown-toggle" data-toggle="dropdown"
+									role="button" aria-haspopup="true" aria-expanded="false">Gestion</a>
+									<ul class="dropdown-menu">
+										<li class="nav-item"><a class="nav-link"
+											href="/Ecommerce/ajouterProduit">Ajouter Produit</a></li>
+										<li class="nav-item"><a class="nav-link"
+											href="/Ecommerce/listeProduits">Liste Produits</a></li>
+										<li class="nav-item"><a class="nav-link"
+											href="/Ecommerce/ajouterFamille">Ajouter Famille</a></li>
+										<li class="nav-item"><a class="nav-link"
+											href="/Ecommerce/listeFamille">Liste Famille</a></li>
+										<li class="nav-item"><a class="nav-link"
+											href="/Ecommerce/listeClient">Liste Clients</a></li>
+									</ul></li>
+							</c:if>
 
 						</ul>
 

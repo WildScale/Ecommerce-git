@@ -35,14 +35,49 @@ public class DAOClient implements IClient{
 
 	@Override
 	public void modifierClient(Client client, int id) {
-		// TODO Auto-generated method stub
+		Connection connexion = SingletonConnexion.getConnection();
+		try {
+			PreparedStatement statement = connexion.prepareStatement("UPDATE Client SET nom = ?, prenom = ?, adresse = ?, email = ?, mdp = ?");
+			statement.setString(1, client.getNom());
+			statement.setString(2, client.getPrenom());
+			statement.setInt(3, client.getAdresse());
+			statement.setString(4, client.getEmail());
+			statement.setString(5, client.getMdp());
+			
+			statement.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
 	public ArrayList<Client> listerClient() {
-		// TODO Auto-generated method stub
-		return null;
+		Connection connexion = SingletonConnexion.getConnection();
+		ArrayList<Client> clients = new ArrayList<Client>();
+		try {
+			PreparedStatement statement = connexion.prepareStatement("SELECT * FROM Client;");
+			ResultSet result = statement.executeQuery();
+			
+			while(result.next()) {
+				String nom = result.getString("nom");
+				String prenom = result.getString("prenom");
+				int adresse = result.getInt("adresse");
+				String email = result.getString("email");
+				String mdp = result.getString("mdp");
+				
+				Client client = new Client(nom, prenom, adresse, email, mdp);
+				client.setId(result.getInt("id"));
+				clients.add(client);
+			}
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return clients;
 	}
 
 	@Override
@@ -101,6 +136,33 @@ public class DAOClient implements IClient{
 			e.printStackTrace();
 		}
 		return adresse;
+	}
+
+	@Override
+	public Client getClientParId(int id) {
+		Connection connexion = SingletonConnexion.getConnection();
+		Client client = new Client();
+		try {
+			PreparedStatement statement = connexion.prepareStatement("SELECT * FROM Client WHERE id = ?");
+			statement.setInt(1, id);
+			
+			ResultSet result = statement.executeQuery();
+			if(result.next()) {
+				String nom = result.getString("nom");
+				String prenom = result.getString("prenom");
+				int adresse = result.getInt("adresse");
+				String email = result.getString("email");
+				String mdp = result.getString("mdp");
+				
+				client = new Client(nom, prenom, adresse, email, mdp);
+				client.setId(id);
+				return client;
+			}
+		}
+		catch(SQLException e ) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	

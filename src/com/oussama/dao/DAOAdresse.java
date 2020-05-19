@@ -20,8 +20,6 @@ public class DAOAdresse implements IAdresse{
 			statement.setString(2, adresse.getQuartier());
 			statement.setString(3, adresse.getRue());
 			
-			statement.executeUpdate();
-			
 			int affectedRows = statement.executeUpdate();
 
 			try (ResultSet rs = statement.getGeneratedKeys()) {

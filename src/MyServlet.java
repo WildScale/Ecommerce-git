@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -20,27 +21,32 @@ import javax.servlet.http.Part;
 
 import com.oussama.dao.DAOAdresse;
 import com.oussama.dao.DAOClient;
+import com.oussama.dao.DAOCommande;
 import com.oussama.dao.DAOFamille;
 import com.oussama.dao.DAOMailing;
 import com.oussama.dao.DAOProduit;
 import com.oussama.models.Adresse;
 import com.oussama.models.Client;
+import com.oussama.models.Commande;
 import com.oussama.models.Famille;
 import com.oussama.models.Produit;
-
+import com.oussama.models.Produit_Commande;
 
 @WebServlet({ "/ajouterFamille", "/ajouterProduit", "/index", "/produit", "/famille", "/produit-modifier",
-		"/produit-supprimer", "/inscription", "/register", "/panier", "/retirer-produit","/login","/contact","/mail","/checkout" })
-@MultipartConfig(fileSizeThreshold=1024*1024*2, // 2MB
-maxFileSize=1024*1024*10,      // 10MB
-maxRequestSize=1024*1024*50)
+		"/produit-supprimer", "/inscription", "/register", "/panier", "/retirer-produit", "/login", "/contact", "/mail",
+		"/checkout", "/listeProduits", "/listeFamille", "/famille-modifier", "/listeClient", "/client-commandes",
+		"/valider-commande" })
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+		maxFileSize = 1024 * 1024 * 10, // 10MB
+		maxRequestSize = 1024 * 1024 * 50)
 public class MyServlet extends HttpServlet {
 	private DAOFamille daoFamille;
 	private DAOProduit daoProduit;
 	private DAOAdresse daoAdresse;
 	private DAOClient daoClient;
 	private DAOMailing daoMailing;
-	
+	private DAOCommande daoCommande;
+
 	private static String dossier_images = "images_produits";
 
 	@Override
@@ -52,6 +58,7 @@ public class MyServlet extends HttpServlet {
 		daoClient = new DAOClient();
 		daoAdresse = new DAOAdresse();
 		daoMailing = new DAOMailing();
+		daoCommande = new DAOCommande();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -63,6 +70,33 @@ public class MyServlet extends HttpServlet {
 			request.setAttribute("familles", familles);
 
 			this.getServletContext().getRequestDispatcher("/ajouterProduit.jsp").forward(request, response);
+		} else if (request.getServletPath().equals("/ajouterFamille")) {
+			this.getServletContext().getRequestDispatcher("/ajouterFamille.jsp").forward(request, response);
+		} else if (request.getServletPath().equals("/listeFamille")) {
+			ArrayList<Famille> familles = daoFamille.listerFamille();
+			request.setAttribute("familles", familles);
+
+			this.getServletContext().getRequestDispatcher("/listeFamilles.jsp").forward(request, response);
+		} else if (request.getServletPath().equals("/listeProduits")) {
+			ArrayList<Produit> produits = daoProduit.listerProduits();
+			request.setAttribute("produits", produits);
+
+			this.getServletContext().getRequestDispatcher("/listeProduits.jsp").forward(request, response);
+		} else if (request.getServletPath().equals("/listeClient")) {
+			ArrayList<Client> clients = daoClient.listerClient();
+			request.setAttribute("clients", clients);
+
+			this.getServletContext().getRequestDispatcher("/listeClient.jsp").forward(request, response);
+		} else if (request.getServletPath().equals("/client-commandes")) {
+			int id = Integer.parseInt(request.getParameter("id"));
+
+			Client client = daoClient.getClientParId(id);
+			ArrayList<Commande> commandes = daoCommande.listerCommandesParIdClient(id);
+			request.setAttribute("client", client);
+			request.setAttribute("commandes", commandes);
+
+			this.getServletContext().getRequestDispatcher("/listeCommandes.jsp").forward(request, response);
+
 		} else if (request.getServletPath().equals("/index")) {
 
 			ArrayList<Produit> produits = daoProduit.listerProduits();
@@ -70,6 +104,12 @@ public class MyServlet extends HttpServlet {
 			request.setAttribute("produits", produits);
 			request.setAttribute("familles", familles);
 			this.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+		} else if (request.getServletPath().equals("/famille")) {
+			int id = Integer.parseInt(request.getParameter("id"));
+			Famille famille = daoFamille.getFamilleParId(id);
+			request.setAttribute("famille", famille);
+
+			this.getServletContext().getRequestDispatcher("/familleProfile.jsp").forward(request, response);
 		} else if (request.getServletPath().equals("/produit")) {
 
 			int id = Integer.parseInt(request.getParameter("id"));
@@ -108,37 +148,49 @@ public class MyServlet extends HttpServlet {
 				produits = new HashMap<Produit, Integer>();
 				session.setAttribute("produits", produits);
 			}
+			double total = 0;
+			Iterator it = produits.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry<Produit, Integer> pair = (Map.Entry<Produit, Integer>) it.next();
+				total += pair.getKey().getPrix() * pair.getValue();
+			}
+
+			request.setAttribute("total", total);
 
 			request.setAttribute("produits", produits);
 
 			this.getServletContext().getRequestDispatcher("/cart.jsp").forward(request, response);
-		}
-		else if(request.getServletPath().equals("/contact")) {
+		} else if (request.getServletPath().equals("/contact")) {
 			this.getServletContext().getRequestDispatcher("/contact.jsp").forward(request, response);
-		}
-		else if(request.getServletPath().equals("/checkout")) {
+		} else if (request.getServletPath().equals("/checkout")) {
 			HttpSession session = request.getSession();
 			Client client = (Client) session.getAttribute("client");
-			
-			
-			if(client == null) {
+
+			if (client == null) {
 				response.sendRedirect("/Ecommerce/login");
-			}
-			else {
+			} else {
 				HashMap<Produit, Integer> produits = (HashMap<Produit, Integer>) session.getAttribute("produits");
-				
-				if(produits  == null) {
+
+				if (produits == null) {
 					produits = new HashMap<Produit, Integer>();
 					session.setAttribute("produits", produits);
 				}
 				
+				double total = 0;
+				Iterator it = produits.entrySet().iterator();
+				while (it.hasNext()) {
+					Map.Entry<Produit, Integer> pair = (Map.Entry<Produit, Integer>) it.next();
+					total += pair.getKey().getPrix() * pair.getValue();
+				}
+
+				request.setAttribute("total", total);
+
 				request.setAttribute("client", client);
 				request.setAttribute("produits", produits);
 				this.getServletContext().getRequestDispatcher("/checkout.jsp").forward(request, response);
 			}
-			
-		}
-		else if(request.getServletPath().equals("/login")) {
+
+		} else if (request.getServletPath().equals("/login")) {
 			this.getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
 		}
 
@@ -172,26 +224,26 @@ public class MyServlet extends HttpServlet {
 			Famille famille = daoProduit.getFamilleParId(id_famille);
 			produit.setFamille(famille);
 			produit.setDescription(description);
-			
+
 			PrintWriter writer = response.getWriter();
 			String path = "C:\\Users\\Yassine\\eclipse-workspace\\Ecommerce\\WebContent\\images_produits";
-			File fileSaveDir =  new File(path);
-			
-			if(!fileSaveDir.exists()) {
+			File fileSaveDir = new File(path);
+
+			if (!fileSaveDir.exists()) {
 				fileSaveDir.mkdir();
 			}
-			
-			Part part=request.getPart("image");
-	        String fileName=extractFileName(part);
-	        part.write(path + File.separator + fileName);
-	        produit.setDescription(description);
-			System.out.println("FILE NAME : "+fileName);
-			
+
+			Part part = request.getPart("image");
+			String fileName = extractFileName(part);
+			part.write(path + File.separator + fileName);
+			produit.setDescription(description);
+			System.out.println("FILE NAME : " + fileName);
+
 			produit.setImage(fileName);
 			System.out.println(produit.getImage());
-			
+
 			daoProduit.ajouterProduit(produit);
-			
+
 			response.sendRedirect("/Ecommerce/index");
 		}
 
@@ -209,10 +261,9 @@ public class MyServlet extends HttpServlet {
 			double prix = Double.parseDouble(request.getParameter("prix_produit"));
 			int id_famille = Integer.parseInt(request.getParameter("famille_produit"));
 			String description = request.getParameter("description");
-			
+
 			Famille famille = daoProduit.getFamilleParId(id_famille);
-			
-			
+
 			Produit produit = new Produit(nom, prix, famille, description, daoProduit.getProduitParId(id).getImage());
 			daoProduit.modifierProduit(produit, id);
 
@@ -262,76 +313,112 @@ public class MyServlet extends HttpServlet {
 			produits.put(produit, quantite);
 
 			response.sendRedirect("/Ecommerce/panier");
-		}
-		else if(request.getServletPath().equals("/retirer-produit")) {
+		} else if (request.getServletPath().equals("/retirer-produit")) {
 			int id = Integer.parseInt(request.getParameter("id"));
-			
+
 			HttpSession session = request.getSession();
-			HashMap<Produit, Integer > produits = (HashMap<Produit, Integer>) session.getAttribute("produits");
-			
-			if(produits == null) {
+			HashMap<Produit, Integer> produits = (HashMap<Produit, Integer>) session.getAttribute("produits");
+
+			if (produits == null) {
 				produits = new HashMap<Produit, Integer>();
 				session.setAttribute("produits", produits);
 			}
-			
-			 Iterator it = produits.entrySet().iterator();
-			   while (it.hasNext())
-			   {
-			      Entry<Produit,Integer> item =(Entry<Produit,Integer>) it.next();
-			      if(id == item.getKey().getId()) {
-			    	  it.remove();
-			      }
-			      
-			   }
-			
+
+			Iterator it = produits.entrySet().iterator();
+			while (it.hasNext()) {
+				Entry<Produit, Integer> item = (Entry<Produit, Integer>) it.next();
+				if (id == item.getKey().getId()) {
+					it.remove();
+				}
+
+			}
+
 			response.sendRedirect("/Ecommerce/panier");
-		}
-		else if(request.getServletPath().equals("/login")) {
-			
+		} else if (request.getServletPath().equals("/login")) {
+
 			System.out.println("INSIDE /LOGIN");
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
-			
+
 			Client client = daoClient.login(email, password);
-			
-			if(client != null) {
+
+			if (client != null) {
 				System.out.println("LOGIN OK");
 				HttpSession session = request.getSession();
-				session.setAttribute("client", client );
+				session.setAttribute("client", client);
 				response.sendRedirect("/Ecommerce/index");
-			}
-			else {
+			} else {
 				System.out.println("erreur :  LOGIN INCORRECT");
 				request.setAttribute("erreur", "Vos identifiants sont incorrects.");
 				response.sendRedirect("/Ecommerce/login");
 			}
-		}
-		else if(request.getServletPath().equals("/mail")) {
+		} else if (request.getServletPath().equals("/mail")) {
 			String nom = request.getParameter("nom");
 			String email = request.getParameter("email");
 			String objet = request.getParameter("objet");
 			String message = request.getParameter("message");
-			
+
 			try {
 				daoMailing.envoyerMail(message, objet, email);
 			} catch (MessagingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			response.sendRedirect("/Ecommerce/contact");
+		} else if (request.getServletPath().equals("/famille-modifier")) {
+			int id = Integer.parseInt(request.getParameter("id"));
+			String action = request.getParameter("action");
+			if (action.equals("modifier")) {
+				String nom = request.getParameter("nom_famille");
+				Famille famille = new Famille(nom);
+				daoFamille.modifierFamille(famille, id);
+				response.sendRedirect("/Ecommerce/famille?id=" + id);
+			} else if (action.equals("supprimer")) {
+				daoFamille.supprimerFamille(id);
+				response.sendRedirect("/Ecommerce/listeFamille");
+			}
+
+		}
+
+		else if (request.getServletPath().equals("/valider-commande")) {
+			HttpSession session = request.getSession();
+			HashMap<Produit, Integer> produits = (HashMap<Produit, Integer>) session.getAttribute("produits");
+
+			Client client = (Client) session.getAttribute("client");
+
+			double total = 0;
+			Iterator it = produits.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry<Produit, Integer> pair = (Map.Entry<Produit, Integer>) it.next();
+				
+				total += pair.getKey().getPrix() * pair.getValue();
+			}
+
+			request.setAttribute("total", total);
+			Commande commande = new Commande(new Date(System.currentTimeMillis()), total, client.getId());
+			commande = daoCommande.ajouterCommande(commande);
+			it = produits.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry<Produit, Integer> pair = (Map.Entry<Produit, Integer>) it.next();
+				Produit_Commande produit_commande = new Produit_Commande(pair.getKey().getId(), commande.getId(), pair.getValue());
+				daoCommande.ajouterProduit_Commande(produit_commande);
+			}
+			session.removeAttribute("produits");
+			response.sendRedirect("/Ecommerce/index");
 		}
 
 	}
+
 	private String extractFileName(Part part) {
-	    String contentDisp = part.getHeader("content-disposition");
-	    String[] items = contentDisp.split(";");
-	    for (String s : items) {
-	        if (s.trim().startsWith("filename")) {
-	            return s.substring(s.indexOf("=") + 2, s.length()-1);
-	        }
-	    }
-	    return "";
+		String contentDisp = part.getHeader("content-disposition");
+		String[] items = contentDisp.split(";");
+		for (String s : items) {
+			if (s.trim().startsWith("filename")) {
+				return s.substring(s.indexOf("=") + 2, s.length() - 1);
+			}
+		}
+		return "";
 	}
 
 }

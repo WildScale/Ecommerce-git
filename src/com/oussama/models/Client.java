@@ -8,6 +8,7 @@ public class Client {
 	private int adresse;
 	private String email;
 	private String mdp;
+	private boolean isAdmin;
 	
 	public Client(String nom, String prenom, int adresse, String email, String mdp) {
 		super();
@@ -17,6 +18,7 @@ public class Client {
 		this.adresse = adresse;
 		this.email = email;
 		this.mdp = mdp;
+		isAdmin = false;
 	}
 	
 	public Client() {

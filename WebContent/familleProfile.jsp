@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -5,15 +7,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Aroma Shop - Home</title>
+<title>Aroma Shop - Checkout</title>
 <link rel="icon" href="img/Fevicon.png" type="image/png">
+
 <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
 <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
 <link rel="stylesheet" href="vendors/themify-icons/themify-icons.css">
-<link rel="stylesheet" href="vendors/nice-select/nice-select.css">
+<link rel="stylesheet" href="vendors/linericon/style.css">
 <link rel="stylesheet"
 	href="vendors/owl-carousel/owl.theme.default.min.css">
 <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
+<link rel="stylesheet" href="vendors/nice-select/nice-select.css">
+<link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
 
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -95,84 +100,67 @@
 	</header>
 	<!--================ End Header Menu Area =================-->
 
-	<main class="site-main">
-
-		<!--================ Hero banner start =================-->
-		<section class="hero-banner">
-			<div class="container">
-				<div class="row no-gutters align-items-center pt-60px">
-					<div class="col-5 d-none d-sm-block">
-						<div class="hero-banner__img">
-							<img class="img-fluid" src="img/home/hero-banner.png" alt="">
-						</div>
-					</div>
-					<div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
-						<div class="hero-banner__content">
-							<h4>Shop is fun</h4>
-							<h1>Browse Our Premium Product</h1>
-							<p>Us which over of signs divide dominion deep fill bring
-								they're meat beho upon own earth without morning over third.
-								Their male dry. They are great appear whose land fly grass.</p>
-							<a class="button button-hero" href="#">Browse Now</a>
-						</div>
-					</div>
+	<!-- ================ start banner area ================= -->
+	<section class="blog-banner-area" id="category">
+		<div class="container h-100">
+			<div class="blog-banner">
+				<div class="text-center">
+					<h1>${famille.nom }</h1>
+					<nav aria-label="breadcrumb" class="banner-breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="#">Accueil</a></li>
+							<li class="breadcrumb-item active" aria-current="page">${famille.nom}</li>
+						</ol>
+					</nav>
 				</div>
 			</div>
-		</section>
+		</div>
+	</section>
+	<!-- ================ end banner area ================= -->
 
-		<section class="section-margin calc-60px">
-			<div class="container">
-				<div class="section-intro pb-60px">
-					<p>Produits populaires</p>
-					<h2>
-						Nos <span class="section-intro__style">Produits</span>
-					</h2>
-				</div>
+
+	<!--================Checkout Area =================-->
+	<section class="checkout_area section-margin--small">
+		<div class="container">
+
+
+			<div class="billing_details">
 				<div class="row">
-					<c:forEach var="produit" items="${produits}">
-
-						<div class="col-md-6 col-lg-4 col-xl-3">
-							<div class="card text-center card-product">
-								<div class="card-product__img">
-									<img class="card-img" style="width: 100px; height: 70px;"
-										src="images_produits/${produit.image}" alt="">
-									<ul class="card-product__imgOverlay">
-										<li><a href="/Ecommerce/produit?id=${produit.id}"><button>
-													<i class="ti-search"></i>
-												</button></a></li>
-										<li><button>
-												<i class="ti-shopping-cart"></i>
-											</button></li>
-
-									</ul>
-								</div>
-								<div class="card-body">
-									<p>${produit.famille.nom}</p>
-									<h4 class="card-product__title">
-										<a href="/Ecommerce/produit?id=${produit.id}">${produit.nom}</a>
-									</h4>
-									<p class="card-product__price">${produit.prix}Dhs</p>
-								</div>
+					<div class="col-lg-8">
+						<h3>Informations de la famille</h3>
+						<form class="row contact_form"
+							action="/Ecommerce/famille-modifier?id=${famille.id}"
+							method="post" novalidate="novalidate">
+							<div class="col-md-6 form-group p_star">
+								<input type="text" class="form-control"
+									placeholder="Nom de la famille" id="first" value="${famille.nom}"
+									name="nom_famille"> <span class="placeholder"
+									data-placeholder="First name" required></span>
 							</div>
-						</div>
+							<button style="margin-left: 20px" type="submit" value="modifier"
+								class="button button-login" name="action">Modifier</button>
+							<button style="margin-left: 20px" type="submit" value="supprimer"
+								class="button button-login" name="action">Supprimer</button>
+							
 
+						</form>
+					</div>
 
-					</c:forEach>
 				</div>
 			</div>
-		</section>
+		</div>
+	</section>
+	<!--================End Checkout Area =================-->
 
-
-	</main>
 
 
 	<!--================ Start footer Area  =================-->
-	<footer class="footer">
-		<div class="footer-area">
+	<footer>
+		<div class="footer-area footer-only">
 			<div class="container">
 				<div class="row section_gap">
 					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="single-footer-widget tp_widgets">
+						<div class="single-footer-widget tp_widgets ">
 							<h4 class="footer_title large_title">Our Mission</h4>
 							<p>So seed seed green that winged cattle in. Gathering thing
 								made fly you're no divided deep moved us lan Gathering thing us

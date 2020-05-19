@@ -11,4 +11,6 @@ public interface IClient {
 	ArrayList<Client> listerClient();
 	Client login(String email, String password);
 	Adresse getAdresseParId(int id);
+	Client getClientParId(int id);
+	
 }

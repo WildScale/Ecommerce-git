@@ -32,7 +32,19 @@ public class DAOFamille implements IFamille{
 
 	@Override
 	public void modifierFamille(Famille famille, int id) {
+		Connection connexion = SingletonConnexion.getConnection();
 		
+		try {
+			PreparedStatement statement = connexion.prepareStatement("UPDATE Famille SET nom = ? WHERE id = ?");
+			
+			statement.setString(1,famille.getNom());
+			statement.setInt(2, id);
+			
+			statement.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -62,8 +74,40 @@ public class DAOFamille implements IFamille{
 
 	@Override
 	public void supprimerFamille(int id) {
-		// TODO Auto-generated method stub
+		Connection connexion = SingletonConnexion.getConnection();
 		
+		try {
+			PreparedStatement statement = connexion.prepareStatement("DELETE FROM Famille where id = ?");
+			statement.setInt(1, id);
+			
+			statement.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public Famille getFamilleParId(int id) {
+		Connection connexion = SingletonConnexion.getConnection();
+		Famille famille = new Famille();
+		
+		try {
+			PreparedStatement statement = connexion.prepareStatement("SELECT * FROM Famille WHERE id = ?");
+			statement.setInt(1, id);
+			
+			ResultSet result = statement.executeQuery();
+			result.next();
+			
+			famille.setId(id);
+			famille.setNom(result.getString("nom"));
+			
+		}
+		catch(SQLException e) {
+			
+		}
+		return famille;
 	}
 	
 

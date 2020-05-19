@@ -22,65 +22,79 @@
 <body>
   <!--================ Start Header Menu Area =================-->
 	<header class="header_area">
-    <div class="main_menu">
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-          <a class="navbar-brand logo_h" href="/Ecommerce/index"><img src="img/logo.png" alt=""></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-              <li class="nav-item active"><a class="nav-link" href="/Ecommerce/index">Accueil</a></li>
-              <li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Catégories</a>
-                <ul class="dropdown-menu">
-                <c:forEach var="famille" items="${familles}">
-                
-                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/famille?id=${famille.id}">${famille.nom}</a></li>
-                </c:forEach>
-                
-                  
-                </ul>
-							</li>
-              
-							<li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Authentification</a>
-                <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/login">Connexion</a></li>
-                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/register">Inscription</a></li>
-                </ul>
-              </li>
-              <li class="nav-item"><a class="nav-link" href="/Ecommerce/contact">Contact</a></li>
-            <li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Gestion</a>
-                <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/ajouterProduit">Ajouter Produit</a></li>
-                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/listeProduits">Liste Produits</a></li>
-                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/ajouterFamille">Ajouter Famille</a></li>
-                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/listeFamille">Liste Famille</a></li>
-                  <li class="nav-item"><a class="nav-link" href="/Ecommerce/listeClient">Liste Clients</a></li>
-                </ul>
-              </li>
-            
-            </ul>
+		<div class="main_menu">
+			<nav class="navbar navbar-expand-lg navbar-light">
+				<div class="container">
+					<a class="navbar-brand logo_h" href="/Ecommerce/index"><img
+						src="img/logo.png" alt=""></a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent"
+						aria-controls="navbarSupportedContent" aria-expanded="false"
+						aria-label="Toggle navigation">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<div class="collapse navbar-collapse offset"
+						id="navbarSupportedContent">
+						<ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+							<li class="nav-item active"><a class="nav-link"
+								href="/Ecommerce/index">Accueil</a></li>
+							<li class="nav-item submenu dropdown"><a href="#"
+								class="nav-link dropdown-toggle" data-toggle="dropdown"
+								role="button" aria-haspopup="true" aria-expanded="false">Catégories</a>
+								<ul class="dropdown-menu">
+									<c:forEach var="famille" items="${familles}">
 
-            <ul class="nav-shop">
-              
-              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">${sessionScope.produits.size }</span></button> </li>
-              
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </div>
-  </header>
+										<li class="nav-item"><a class="nav-link"
+											href="/Ecommerce/famille?id=${famille.id}">${famille.nom}</a></li>
+									</c:forEach>
+
+
+								</ul></li>
+
+							<li class="nav-item submenu dropdown"><a href="#"
+								class="nav-link dropdown-toggle" data-toggle="dropdown"
+								role="button" aria-haspopup="true" aria-expanded="false">Authentification</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link"
+										href="/Ecommerce/login">Connexion</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="/Ecommerce/register">Inscription</a></li>
+								</ul></li>
+							<li class="nav-item"><a class="nav-link"
+								href="/Ecommerce/contact">Contact</a></li>
+							<c:if test="${sessionScope.client.isAdmin==true}">
+								<li class="nav-item submenu dropdown"><a href="#"
+									class="nav-link dropdown-toggle" data-toggle="dropdown"
+									role="button" aria-haspopup="true" aria-expanded="false">Gestion</a>
+									<ul class="dropdown-menu">
+										<li class="nav-item"><a class="nav-link"
+											href="/Ecommerce/ajouterProduit">Ajouter Produit</a></li>
+										<li class="nav-item"><a class="nav-link"
+											href="/Ecommerce/listeProduits">Liste Produits</a></li>
+										<li class="nav-item"><a class="nav-link"
+											href="/Ecommerce/ajouterFamille">Ajouter Famille</a></li>
+										<li class="nav-item"><a class="nav-link"
+											href="/Ecommerce/listeFamille">Liste Famille</a></li>
+										<li class="nav-item"><a class="nav-link"
+											href="/Ecommerce/listeClient">Liste Clients</a></li>
+									</ul></li>
+							</c:if>
+
+						</ul>
+
+						<ul class="nav-shop">
+
+							<li class="nav-item"><button>
+									<i class="ti-shopping-cart"></i><span class="nav-shop__circle">${sessionScope.produits.size }</span>
+								</button></li>
+
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</header>
 	<!--================ End Header Menu Area =================-->
 
 	<!-- ================ start banner area ================= -->	
@@ -143,12 +157,15 @@
                         </ul>
                         <ul class="list list_2">
                            
-                            <li><a href="#">Total <span>$2210.00</span></a></li>
+                            <li>Total <span>${total} Dhs</span></li>
                         </ul>
                         
                         
                         <div class="text-center">
-                          <a class="button button-paypal" href="#">Payer</a>
+                         <form method="post" action="/Ecommerce/valider-commande">
+                          		<button type="submit" class="button button-paypal" >Payer</button>
+                          </form>
+                          
                         </div>
                     </div>
                 </div>
